@@ -4,34 +4,20 @@ using UnityEngine;
 
 public class ThirdPersonController : MonoBehaviour
 {
-    public Transform cameraTransform;
-    public float moveSpeed = 5f;
-    public float rotationSpeed = 5f;
-
-    private void Update()
+   public float speed = 2;
+    void Update()
     {
-        // Get input for movement
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        // Calculate the movement direction relative to the camera
-        Vector3 cameraForward = cameraTransform.forward;
-        Vector3 cameraRight = cameraTransform.right;
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-
-        Vector3 moveDirection = (cameraForward * verticalInput + cameraRight * horizontalInput).normalized;
-
-        // Apply movement
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
-
-        // Rotate the player towards the movement direction
-        if (moveDirection != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+        float yawMouse = Input.GetAxis("Mouse X");
+        float pitchMouse = Input.GetAxis("Mouse Y");
+        Vector3 targetFlyRotation = Vector3.zero;
+        Vector3 movement = new Vector3(x, 0, z);
+        movement = Vector3.ClampMagnitude(movement, 1);
+        transform.Translate(movement * speed * Time.deltaTime);
+        
+        
+        
+        
     }
 }
